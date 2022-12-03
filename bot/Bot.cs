@@ -9,14 +9,15 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using DSharpPlus.SlashCommands;
 
 namespace bot
 {
-    internal class Bot
+    public class Bot
     {
-
-        public DiscordClient Client { get; private set; }
+        public static DiscordClient Client { get; set; }
         public CommandsNextExtension commands { get; private set; }
+
 
         public async Task RunAsync()
         {
@@ -39,24 +40,28 @@ namespace bot
 
             Client.Ready += OnClientReady;
 
-            var commandsConfig = new CommandsNextConfiguration
-            {
-                StringPrefixes = new string[] { "!" },
-                EnableDms = true
+            //var commandsconfig = new commandsnextconfiguration
+            //{
+            //    stringprefixes = new string[] { "!" },
+            //    enabledms = true
 
-            };
+            //};
 
-            var commands = Client.UseCommandsNext(commandsConfig);
+            //var commands = Client.UseCommandsNext(commandsConfig);
 
-            commands.RegisterCommands<MainCommands>();
+            //commands.RegisterCommands<MainCommands>();
+
+            var slash = Client.UseSlashCommands();
+            slash.RegisterCommands<SlashCommands>();
 
             await Client.ConnectAsync();
 
-            await Task.Delay(-1);
+                await Task.Delay(-1);
         }
 
         private Task OnClientReady(object sender, ReadyEventArgs e)
         {
+            Console.WriteLine("Loaded");
             return Task.CompletedTask;
         }
     }

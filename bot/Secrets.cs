@@ -11,5 +11,8 @@ namespace bot
     {
         [JsonProperty("token")]
         public string Token { get; private set; }
+
+        [JsonProperty("apitoken")]
+        public string ApiToken { get; private set; }
     }
 }
